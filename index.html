@@ -36,11 +36,15 @@
     .role-box{ background:var(--celeste); border:1px solid #d7e9ff; border-radius:14px; padding:14px; display:flex; gap:18px; flex-wrap:wrap }
     .role{ display:flex; align-items:center; gap:10px; background:#fff; border:1px solid #e5e7eb; padding:10px 14px; border-radius:12px; cursor:pointer }
     .muted{ color:var(--muted); font-size:14px }
+    /* Nota: .actions se usa en el paso 1, pero en el paso 2 usaremos tabla inline para asegurar compatibilidad con Gmail */
     .actions{ display:flex; gap:12px; flex-wrap:wrap; margin-top:10px }
-    .btn{ display:inline-flex; align-items:center; justify-content:center; gap:10px; padding:12px 16px; border-radius:14px; font-weight:700; cursor:pointer; border:0 }
-    .btn-primary{ background:var(--primary); color:#fff }
+    
+    /* Ajuste importante para el botón en email: inline-block en lugar de inline-flex para mejor soporte */
+    .btn{ display:inline-block; text-decoration:none; text-align:center; padding:12px 24px; border-radius:14px; font-weight:700; cursor:pointer; border:0; font-family:sans-serif; }
+    .btn-primary{ background:var(--primary); color:#fff !important; } /* !important ayuda a que Gmail no cambie el color del link */
     .btn-primary:hover{ background:var(--primary-600) }
-    .btn-secondary{ background:#eef2ff; color:#3730a3 }
+    .btn-secondary{ background:#eef2ff; color:#3730a3; display:inline-flex; align-items:center; justify-content:center; gap:10px; padding:12px 16px; } /* Mantenemos flex solo para el botón de la web app, no el del email */
+    
     .footer-note{ text-align:center; margin-top:18px; color:var(--muted); font-size:14px }
     .result-wrap{ padding:28px; min-height:70vh; display:flex; align-items:center; justify-content:center }
     .result-card{ background:#fff; border:1px solid #e5e7eb; border-radius:20px; padding:28px; box-shadow:var(--shadow); max-width:720px; width:min(720px,100%); text-align:center }
@@ -77,11 +81,11 @@
         </div>
         <div class="field" style="margin-top:16px">
           <label for="url">URL de descarga (opcional):</label>
-          <input id="url" class="input" type="url" placeholder="Pega aquí tu URL de descarga. Si lo dejas vacío usaré la de Aimy (https://play.google.com/apps/internaltest/4700876435861386637)." />
+          <input id="url" class="input" type="url" placeholder="Pega aquí tu URL de descarga. Si lo dejas vacío usaré la de Aimy." />
           <p class="muted">Sugerencia: puedes pegar aquí un link acortado (Bitly, Rebrandly, etc.). Si lo dejas vacío, usaré: <span class="kbd">https://play.google.com/apps/internaltest/4700876435861386637</span></p>
         </div>
         <div class="actions">
-          <button id="go" class="btn btn-primary" type="button">Enviar</button>
+          <button id="go" class="btn btn-primary" type="button" style="display:inline-flex; align-items:center; gap:10px">Enviar</button>
           <button id="demo" class="btn btn-secondary" type="button" title="Rellenar con ejemplo">Autocompletar todo</button>
         </div>
         <p class="footer-note">© 2025 Aimy. Todos los derechos reservados.</p>
@@ -93,11 +97,16 @@
         <div class="result-card">
           <h2 class="title">¡Bienvenido/a a Aimy Psicología!</h2>
           <p class="lead" id="saludo"></p>
-          <p>Contraseña temporal: <span class="kbd" id="pwd"></span></p>
-          <div class="actions" style="margin-top:18px; justify-content:center">
-            <a id="cta" class="btn btn-primary" target="_blank" rel="noopener">Acceder a Aimy</a>
-          </div>
-          <p class="muted" id="urlLine" style="margin-top:20px">Si el botón no funciona, copiá y pegá esta URL en tu navegador: <span id="urlText" style="color:#111827"></span></p>
+          <p>Contraseña temporal: <span class="kbd" id="pwd" style="background:#f3f4f6; padding:2px 6px; border-radius:4px; font-family:monospace; font-weight:bold;"></span></p>
+          
+          <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:24px; margin-bottom:24px;">
+            <tr>
+              <td align="center" style="text-align:center;">
+                <a id="cta" class="btn btn-primary" target="_blank" rel="noopener" style="font-family:sans-serif; font-size:16px; line-height:1.2;">Acceder a Aimy</a>
+              </td>
+            </tr>
+          </table>
+          <p class="muted" id="urlLine" style="margin-top:20px">Si el botón no funciona, copiá y pegá esta URL en tu navegador: <span id="urlText" style="color:#111827; word-break:break-all;"></span></p>
           <p class="muted" style="margin-top:16px">Por seguridad, te pediremos actualizar la contraseña al ingresar.</p>
           <hr style="border:none; border-top:1px solid #eef2f7; margin:20px 0">
           <p class="muted" style="text-align:center; margin:0">© 2025 Aimy. Todos los derechos reservados.</p>
